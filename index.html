@@ -1,0 +1,424 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta
+  name="viewport"
+  content="width=device-width,initial-scale=1"
+>
+<title>EXP-007 — Marketplace Intent Study</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 50% 0%, #172033 0%, #090c13 44%, #050609 100%);
+  color: #f5f7fb;
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "SF Pro Display",
+    "Helvetica Neue",
+    sans-serif;
+}
+
+.shell {
+  width: min(920px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 54px 0 70px;
+}
+
+.eyebrow {
+  text-align: center;
+  letter-spacing: .18em;
+  font-size: 12px;
+  font-weight: 700;
+  color: #9ca8bb;
+}
+
+h1 {
+  max-width: 700px;
+  margin: 13px auto 12px;
+  text-align: center;
+  font-size: clamp(34px, 7vw, 62px);
+  line-height: .98;
+  letter-spacing: -.045em;
+}
+
+.lead {
+  max-width: 650px;
+  margin: 0 auto 36px;
+  text-align: center;
+  color: #aeb7c7;
+  line-height: 1.55;
+}
+
+.artwork-frame {
+  overflow: hidden;
+  border-radius: 28px;
+  border: 1px solid rgba(255,255,255,.13);
+  background: rgba(255,255,255,.035);
+  box-shadow:
+    0 30px 90px rgba(0,0,0,.48),
+    inset 0 1px 0 rgba(255,255,255,.08);
+}
+
+.artwork-frame iframe {
+  display: block;
+  width: 100%;
+  height: 560px;
+  border: 0;
+  background: #08090d;
+}
+
+.info-card {
+  margin-top: 22px;
+  min-height: 310px;
+  padding: 28px;
+  border-radius: 26px;
+  border: 1px solid rgba(255,255,255,.13);
+  background: rgba(255,255,255,.055);
+  backdrop-filter: blur(22px);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.08),
+    0 20px 70px rgba(0,0,0,.30);
+}
+
+.info-kicker {
+  margin-bottom: 8px;
+  font-size: 11px;
+  letter-spacing: .17em;
+  font-weight: 800;
+  color: #a8b5ca;
+}
+
+.info-title {
+  margin: 0 0 22px;
+  font-size: 27px;
+  letter-spacing: -.03em;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 145px minmax(0,1fr);
+  gap: 18px;
+  padding: 13px 0;
+  border-top: 1px solid rgba(255,255,255,.08);
+}
+
+.label {
+  color: #8f9aac;
+}
+
+.value {
+  overflow-wrap: anywhere;
+  font-weight: 600;
+}
+
+.cta {
+  display: flex;
+  width: 100%;
+  min-height: 62px;
+  margin-top: 22px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255,255,255,.22);
+  border-radius: 18px;
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255,255,255,.20),
+      rgba(255,255,255,.09)
+    );
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.28),
+    0 18px 55px rgba(0,0,0,.35);
+  color: white;
+  text-decoration: none;
+  font-size: 17px;
+  font-weight: 750;
+}
+
+.disclaimer {
+  max-width: 650px;
+  margin: 18px auto 0;
+  text-align: center;
+  color: #707b8d;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+@media (max-width: 650px) {
+  .artwork-frame iframe {
+    height: 450px;
+  }
+
+  .row {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+}
+</style>
+</head>
+
+<body>
+<main class="shell">
+
+  <div class="eyebrow">
+    EXP-007 · ON-CHAIN DETAILS INTENT STUDY
+  </div>
+
+  <h1>
+    Deterministic Signal Trace
+  </h1>
+
+  <p class="lead">
+    Explore the same experimental digital artwork,
+    then decide whether you want to inspect its verified on-chain details.
+  </p>
+
+  <section class="artwork-frame">
+    <iframe
+      src="./artwork.html"
+      title="Deterministic Signal Trace"
+    ></iframe>
+  </section>
+
+  <section
+    class="info-card"
+    id="information-module"
+  ></section>
+
+  <a
+    class="cta"
+    id="onchain-cta"
+    href="https://sepolia.etherscan.io/token/0x93A47e46c9f429136587f61e69EC59804CA0B456?a=1"
+  >
+    View on-chain details
+  </a>
+
+  <p class="disclaimer">
+    Ethereum Sepolia testnet · Experimental asset.
+    No claim of financial value, investment return,
+    or market demand.
+  </p>
+
+  
+
+</main>
+
+<script>
+const EXPERIMENT = "EXP-007";
+
+const COLLECTOR =
+  "https://aisizarwalli-exp007-collector.aisizarwalli.workers.dev/event";
+
+function newId() {
+  if (
+    globalThis.crypto &&
+    typeof crypto.randomUUID === "function"
+  ) {
+    return crypto.randomUUID();
+  }
+
+  return (
+    Date.now().toString(36) +
+    "-" +
+    Math.random().toString(36).slice(2)
+  );
+}
+
+let sessionId =
+  sessionStorage.getItem(
+    "exp007_session"
+  );
+
+if (!sessionId) {
+  sessionId = newId();
+
+  sessionStorage.setItem(
+    "exp007_session",
+    sessionId
+  );
+}
+
+let variant =
+  sessionStorage.getItem(
+    "exp007_variant"
+  );
+
+if (!variant) {
+  const random =
+    new Uint32Array(1);
+
+  crypto.getRandomValues(random);
+
+  variant =
+    random[0] % 2 === 0
+      ? "CONTROL"
+      : "TREATMENT";
+
+  sessionStorage.setItem(
+    "exp007_variant",
+    variant
+  );
+}
+
+const module =
+  document.getElementById(
+    "information-module"
+  );
+
+const control = `
+  <div class="info-kicker">
+    ARTWORK INFORMATION
+  </div>
+
+  <h2 class="info-title">
+    About this work
+  </h2>
+
+  <div class="row">
+    <div class="label">Type</div>
+    <div class="value">
+      Experimental digital artwork
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="label">Protocol</div>
+    <div class="value">
+      EXP-007
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="label">Presentation</div>
+    <div class="value">
+      Static deterministic composition
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="label">Study</div>
+    <div class="value">
+      Marketplace-intent observation
+    </div>
+  </div>
+`;
+
+const treatment = `
+  <div class="info-kicker">
+    ON-CHAIN PROVENANCE
+  </div>
+
+  <h2 class="info-title">
+    Verifiable provenance
+  </h2>
+
+  <div class="row">
+    <div class="label">Network</div>
+    <div class="value">
+      Ethereum Sepolia
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="label">Token</div>
+    <div class="value">
+      #1
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="label">Contract</div>
+    <div class="value">
+      0x93A47e46c9f429136587f61e69EC59804CA0B456
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="label">Artwork SHA-256</div>
+    <div class="value">
+      114a40a49b4fe18c34bad3af70775b0d952091ad072bc680ed6730b8bee49132
+    </div>
+  </div>
+`;
+
+module.innerHTML =
+  variant === "TREATMENT"
+    ? treatment
+    : control;
+
+
+
+async function send(
+  eventName
+) {
+  const event = {
+    schema_version: 1,
+    experiment: EXPERIMENT,
+    variant,
+    session_id: sessionId,
+    event_name: eventName,
+    occurred_at:
+      new Date().toISOString()
+  };
+
+  try {
+    return await fetch(
+      COLLECTOR,
+      {
+        method: "POST",
+        mode: "cors",
+        keepalive: true,
+
+        headers: {
+          "Content-Type":
+            "application/json"
+        },
+
+        body:
+          JSON.stringify(event)
+      }
+    );
+  } catch {
+    return null;
+  }
+}
+
+send("page_view");
+
+setTimeout(
+  () => send("engaged_5s"),
+  5000
+);
+
+setTimeout(
+  () => send("engaged_15s"),
+  15000
+);
+
+document
+  .getElementById("onchain-cta")
+  .addEventListener(
+    "click",
+    async event => {
+      event.preventDefault();
+
+      await send(
+        "onchain_click"
+      );
+
+      location.href = "https://sepolia.etherscan.io/token/0x93A47e46c9f429136587f61e69EC59804CA0B456?a=1";
+    }
+  );
+</script>
+
+</body>
+</html>
