@@ -1,5 +1,5 @@
 const EXPERIMENT = "EXP-008";
-const ALLOWED_ORIGIN = "__EXP008_ALLOWED_ORIGIN__";
+const ALLOWED_ORIGIN = "https://mohamedazad415-coder.github.io";
 
 const ALLOWED_EVENTS = new Set([
   "page_view",
