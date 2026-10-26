@@ -10,12 +10,12 @@
 - [x] No payment or transaction.
 - [x] Collector validates event names and variants.
 - [x] D1 deduplication defined.
-- [ ] Create dedicated D1 database aisizarwalli-exp008.
+- [x] Create dedicated D1 database aisizarwalli-exp008.
 - [ ] Apply schema.sql remotely.
 - [ ] Deploy dedicated Worker.
-- [ ] Replace __EXP008_D1_DATABASE_ID__.
-- [ ] Replace __EXP008_ALLOWED_ORIGIN__.
-- [ ] Replace __EXP008_COLLECTOR_ENDPOINT__.
+- [x] Configure D1 database ID.
+- [x] Configure allowed GitHub Pages origin.
+- [x] Configure collector endpoint.
 - [ ] Publish from dedicated EXP-008 public location.
 - [ ] Verify /health and CORS.
 - [ ] Run CONTROL telemetry chain.
