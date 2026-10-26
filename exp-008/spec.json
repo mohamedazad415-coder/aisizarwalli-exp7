@@ -1,7 +1,7 @@
 {
   "experiment": "EXP-008",
-  "title": "Price Disclosure → Collector Intent",
-  "status": "PRELAUNCH_PREPARED_AWAITING_INFRASTRUCTURE",
+  "title": "Price Disclosure \u2192 Collector Intent",
+  "status": "RUNNING_PUBLIC",
   "objective": "Measure whether showing a proposed collector price before acquisition details changes explicit collector intent.",
   "artwork": {
     "reuse_existing_artwork": true,
@@ -73,5 +73,8 @@
     "Run clean end-to-end telemetry validation and delete test rows.",
     "Record zero-event public baseline.",
     "Human approval is required before any Moltbook post or financial/on-chain action."
-  ]
+  ],
+  "official_launch_utc": "2026-10-26T21:09:01.523588+00:00",
+  "maximum_end_utc": "2026-11-09T21:09:01.523588+00:00",
+  "public_url": "https://mohamedazad415-coder.github.io/aisizarwalli-exp7/exp-008/public/"
 }

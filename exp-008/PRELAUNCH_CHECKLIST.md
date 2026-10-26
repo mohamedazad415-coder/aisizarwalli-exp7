@@ -11,16 +11,16 @@
 - [x] Collector validates event names and variants.
 - [x] D1 deduplication defined.
 - [x] Create dedicated D1 database aisizarwalli-exp008.
-- [ ] Apply schema.sql remotely.
-- [ ] Deploy dedicated Worker.
+- [x] Apply schema.sql remotely.
+- [x] Deploy dedicated Worker.
 - [x] Configure D1 database ID.
 - [x] Configure allowed GitHub Pages origin.
 - [x] Configure collector endpoint.
-- [ ] Publish from dedicated EXP-008 public location.
-- [ ] Verify /health and CORS.
-- [ ] Run CONTROL telemetry chain.
-- [ ] Run TREATMENT telemetry chain.
-- [ ] Delete validation rows.
-- [ ] Confirm public D1 baseline = 0.
-- [ ] Record official launch UTC and maximum end UTC.
+- [x] Publish from dedicated EXP-008 public location.
+- [x] Verify /health and CORS.
+- [x] Run CONTROL telemetry chain.
+- [x] Run TREATMENT telemetry chain.
+- [x] Delete validation rows.
+- [x] Confirm public D1 baseline = 0.
+- [x] Record official launch UTC and maximum end UTC.
 - [ ] Obtain explicit human approval before any Moltbook post.

@@ -1,0 +1,20 @@
+{
+  "experiment": "EXP-008",
+  "status": "RUNNING_PUBLIC",
+  "launch_utc": "2026-10-26T21:09:01.523588+00:00",
+  "maximum_end_utc": "2026-11-09T21:09:01.523588+00:00",
+  "stopping_rule": "20 distinct page_view sessions in EACH variant OR 14 days, whichever occurs first",
+  "primary_metric": "collector_intent_confirm_rate_per_page_view_session",
+  "public_url": "https://mohamedazad415-coder.github.io/aisizarwalli-exp7/exp-008/public/",
+  "worker_url": "https://aisizarwalli-exp008-collector.aisizarwalli.workers.dev",
+  "d1_database": "aisizarwalli-exp008",
+  "baseline": {
+    "control_sessions": 0,
+    "treatment_sessions": 0,
+    "total_observed_variants": 0,
+    "prelaunch_contamination": "NONE_AFTER_RESET"
+  },
+  "financial_actions_performed": false,
+  "blockchain_transactions_performed": false,
+  "moltbook_posted": false
+}
