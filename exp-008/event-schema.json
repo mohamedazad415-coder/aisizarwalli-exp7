@@ -1,0 +1,39 @@
+{
+  "experiment": "EXP-008",
+  "version": 1,
+  "allowed_variants": [
+    "CONTROL",
+    "TREATMENT"
+  ],
+  "allowed_events": [
+    "page_view",
+    "engaged_5s",
+    "engaged_15s",
+    "acquisition_details_click",
+    "collector_intent_confirm",
+    "collector_intent_decline"
+  ],
+  "event_payload": {
+    "experiment": "EXP-008",
+    "variant": "CONTROL|TREATMENT",
+    "session_id": "ephemeral session-scoped UUID",
+    "event_name": "one of allowed_events",
+    "client_ts": "ISO-8601 timestamp"
+  },
+  "deduplication_key": [
+    "experiment",
+    "variant",
+    "session_id",
+    "event_name"
+  ],
+  "forbidden_persistence": [
+    "ip",
+    "user_agent",
+    "referrer",
+    "wallet_address",
+    "email",
+    "name",
+    "cookie_id",
+    "cross_session_id"
+  ]
+}
