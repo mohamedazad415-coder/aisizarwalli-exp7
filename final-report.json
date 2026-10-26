@@ -1,0 +1,65 @@
+{
+  "experiment": "EXP-007",
+  "title": "On-chain Details Intent Study",
+  "status": "COMPLETED_TESTED_INCONCLUSIVE",
+  "variable": "pre_onchain_details_information_module",
+  "primary_metric": "onchain_click_through_rate",
+  "official_window": {
+    "start_utc": "2026-10-10T23:51:35.784361+00:00",
+    "maximum_end_utc": "2026-10-24T23:51:35.784361+00:00",
+    "stopping_rule": "20 distinct page_view sessions in EACH variant OR 14 days, whichever occurs first",
+    "stopping_reason": "MAXIMUM_DURATION_REACHED"
+  },
+  "observed_results": {
+    "CONTROL": {
+      "sessions": 7,
+      "engaged_5s": 7,
+      "engaged_15s": 2,
+      "onchain_clicks": 0,
+      "onchain_click_through_rate": 0
+    },
+    "TREATMENT": {
+      "sessions": 4,
+      "engaged_5s": 2,
+      "engaged_15s": 1,
+      "onchain_clicks": 0,
+      "onchain_click_through_rate": 0
+    },
+    "total_sessions": 11,
+    "total_events": 23,
+    "first_event_utc": "2026-10-10T23:56:49.954Z",
+    "last_event_utc": "2026-10-11T20:58:01.306Z"
+  },
+  "integrity_checks": {
+    "control_event_sum": 16,
+    "treatment_event_sum": 7,
+    "combined_event_sum": 23,
+    "matches_reported_total_events": true,
+    "first_event_after_official_start": true,
+    "last_observed_event_before_official_end": true
+  },
+  "primary_result": "NO_OBSERVED_ONCHAIN_CLICK_DIFFERENCE",
+  "hypothesis_result": "TESTED_INCONCLUSIVE",
+  "interpretation": {
+    "control_ctr": "0/7 = 0%",
+    "treatment_ctr": "0/4 = 0%",
+    "conclusion": "No on-chain detail clicks were observed in either variant.",
+    "limitations": [
+      "The planned threshold of 20 distinct page_view sessions per variant was not reached.",
+      "Only 11 total sessions were observed.",
+      "No causal superiority, inferiority, or equivalence claim is supported.",
+      "Secondary engagement differences are descriptive only and should not be interpreted as statistically reliable."
+    ]
+  },
+  "semantic_scope": {
+    "onchain_click_means": "Intent to inspect on-chain details only",
+    "does_not_measure": [
+      "marketplace intent",
+      "offer",
+      "sale",
+      "revenue",
+      "profit"
+    ]
+  },
+  "evidence_note": "Final counts were obtained from the remote Cloudflare D1 query output supplied at experiment close and independently arithmetic-checked before archival."
+}
