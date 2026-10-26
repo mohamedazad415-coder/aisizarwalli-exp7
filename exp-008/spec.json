@@ -1,0 +1,77 @@
+{
+  "experiment": "EXP-008",
+  "title": "Price Disclosure → Collector Intent",
+  "status": "PRELAUNCH_PREPARED_AWAITING_INFRASTRUCTURE",
+  "objective": "Measure whether showing a proposed collector price before acquisition details changes explicit collector intent.",
+  "artwork": {
+    "reuse_existing_artwork": true,
+    "sha256": "114a40a49b4fe18c34bad3af70775b0d952091ad072bc680ed6730b8bee49132",
+    "change_allowed": false
+  },
+  "variable": "pre_acquisition_price_disclosure",
+  "control": {
+    "eyebrow": "COLLECTOR AVAILABILITY",
+    "headline": "Acquisition details available",
+    "upfront_price_visible": false
+  },
+  "treatment": {
+    "eyebrow": "PROPOSED COLLECTOR PRICE",
+    "headline": "0.01 ETH",
+    "upfront_price_visible": true
+  },
+  "common_after_details_click": {
+    "proposed_price": "0.01 ETH",
+    "CTA": "View acquisition details",
+    "primary_confirmation": "I would consider collecting at 0.01 ETH",
+    "decline": "Not at this price",
+    "disclosure": "Research interest check only. No purchase, wallet connection, payment, listing, or transaction occurs."
+  },
+  "hypothesis": "Showing the proposed price before the acquisition-details click will increase the rate of explicit collector-intent confirmations per page-view session.",
+  "primary_event": "collector_intent_confirm",
+  "primary_metric": "collector_intent_confirm_rate_per_page_view_session",
+  "secondary_events": [
+    "page_view",
+    "engaged_5s",
+    "engaged_15s",
+    "acquisition_details_click",
+    "collector_intent_decline"
+  ],
+  "assignment": {
+    "ratio": "50/50",
+    "persistence": "sessionStorage only",
+    "override_in_public_build": false
+  },
+  "stopping_rule": {
+    "threshold": "20 distinct page_view sessions in EACH variant",
+    "maximum_duration_days": 14,
+    "rule": "Stop at the first of threshold reached or maximum duration reached."
+  },
+  "privacy": {
+    "cookies": false,
+    "fingerprinting": false,
+    "persistent_cross_session_id": false,
+    "stores_ip": false,
+    "stores_user_agent": false,
+    "stores_referrer": false
+  },
+  "semantics": {
+    "collector_intent_confirm_means": "Anonymous stated willingness to consider collecting at the proposed price.",
+    "does_not_mean": [
+      "marketplace visit",
+      "offer",
+      "purchase",
+      "sale",
+      "revenue",
+      "profit"
+    ]
+  },
+  "launch_gate": [
+    "Deploy a dedicated EXP-008 collector and D1 database.",
+    "Replace collector endpoint placeholder in the public page.",
+    "Replace allowed-origin placeholder in the Worker.",
+    "Publish from a dedicated public repository or dedicated public path.",
+    "Run clean end-to-end telemetry validation and delete test rows.",
+    "Record zero-event public baseline.",
+    "Human approval is required before any Moltbook post or financial/on-chain action."
+  ]
+}
