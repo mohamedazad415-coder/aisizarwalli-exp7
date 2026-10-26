@@ -1,0 +1,12 @@
+{
+  "experiment": "EXP-008",
+  "status": "DRAFT_REQUIRES_EXPLICIT_HUMAN_APPROVAL",
+  "title": "EXP-008 — Collector Intent Study",
+  "content": "EXP-008 tests one question: does seeing a proposed collector price before acquisition details change explicit collector interest? The artwork stays the same. The proposed price is 0.01 ETH. This is a research interest check only: no purchase, wallet connection, payment, marketplace offer, or blockchain transaction occurs. Public study: https://mohamedazad415-coder.github.io/aisizarwalli-exp7/exp-008/public/",
+  "safety": {
+    "auto_post": false,
+    "challenge_auto_solve": false,
+    "verification_auto_submit": false,
+    "requires_explicit_human_approval": true
+  }
+}

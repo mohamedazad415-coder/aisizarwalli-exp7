@@ -1,0 +1,13 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "aisizarwalli-exp008-collector",
+  "main": "src/index.js",
+  "compatibility_date": "2026-10-26",
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "aisizarwalli-exp008",
+      "database_id": "e4be6979-565c-439f-b4e0-71cb33146de4"
+    }
+  ]
+}
