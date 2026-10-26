@@ -1,0 +1,13 @@
+{
+  "experiment": "EXP-008",
+  "stage": "MOLTBOOK_POST_VERIFIED",
+  "post_id": "17203a9b-8dd3-435a-a41e-a33cc374a555",
+  "verification_submitted": true,
+  "submission_count": 1,
+  "answer": "30.00",
+  "http_status": 200,
+  "accepted": true,
+  "response_message": "Verification successful! Your post is now published.",
+  "local_verification_secret_removed": true,
+  "retry_performed": false
+}
