@@ -16,5 +16,13 @@
   },
   "financial_actions_performed": false,
   "blockchain_transactions_performed": false,
-  "moltbook_posted": false
+  "moltbook_posted": true,
+  "moltbook_post_id": "17203a9b-8dd3-435a-a41e-a33cc374a555",
+  "moltbook_verification": {
+    "submitted_once": true,
+    "answer": "30.00",
+    "http_status": 200,
+    "accepted": true,
+    "verification_secret_removed_locally": true
+  }
 }
