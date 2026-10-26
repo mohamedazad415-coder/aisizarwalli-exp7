@@ -23,4 +23,7 @@
 - [x] Delete validation rows.
 - [x] Confirm public D1 baseline = 0.
 - [x] Record official launch UTC and maximum end UTC.
-- [ ] Obtain explicit human approval before any Moltbook post.
+- [x] Obtain explicit human approval before any Moltbook post.
+
+- [x] Moltbook post created and verification submitted exactly once.
+- [x] Moltbook verification accepted (HTTP 200).
