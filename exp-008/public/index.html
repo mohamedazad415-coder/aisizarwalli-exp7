@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>EXP-008 — Collector Intent Study</title>
+<style>
+*{box-sizing:border-box}
+:root{color-scheme:dark}
+body{
+  margin:0;min-height:100vh;color:#f5f7fb;
+  background:
+    radial-gradient(circle at 50% -10%,rgba(78,91,130,.34),transparent 38%),
+    linear-gradient(180deg,#090c13,#050609 72%);
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Helvetica Neue",sans-serif
+}
+.shell{width:min(940px,calc(100% - 32px));margin:0 auto;padding:54px 0 72px}
+.eyebrow{text-align:center;font-size:12px;font-weight:800;letter-spacing:.18em;color:#a7b2c5}
+h1{max-width:760px;margin:14px auto 12px;text-align:center;font-size:clamp(36px,7vw,64px);line-height:.98;letter-spacing:-.05em}
+.lead{max-width:680px;margin:0 auto 34px;text-align:center;color:#b3bdcc;line-height:1.55}
+.artwork-frame{overflow:hidden;border-radius:30px;border:1px solid rgba(255,255,255,.13);background:rgba(255,255,255,.035);box-shadow:0 28px 90px rgba(0,0,0,.48),inset 0 1px 0 rgba(255,255,255,.07)}
+.artwork-frame iframe{display:block;width:100%;height:560px;border:0;background:#050609}
+.card{margin:24px auto 0;padding:24px;border-radius:26px;border:1px solid rgba(255,255,255,.12);background:rgba(16,21,31,.72);backdrop-filter:blur(18px);box-shadow:0 18px 55px rgba(0,0,0,.34)}
+.label{font-size:11px;font-weight:800;letter-spacing:.17em;color:#9eabc0}
+.module-title{margin:7px 0 8px;font-size:30px;letter-spacing:-.035em}
+.module-copy{margin:0;color:#b8c1cf;line-height:1.55}
+.cta,.confirm,.decline{width:100%;border:0;border-radius:18px;padding:16px 20px;font-weight:800;font-size:16px;cursor:pointer}
+.cta{margin-top:18px;color:#071018;background:linear-gradient(90deg,#d9e7ff,#f4d28a);box-shadow:0 10px 35px rgba(205,224,255,.16)}
+.details{display:none;margin-top:18px;padding:20px;border-radius:20px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.045)}
+.details.open{display:block}
+.price{font-size:38px;font-weight:850;letter-spacing:-.045em;margin:4px 0 8px}
+.notice{color:#aeb8c7;line-height:1.5;font-size:14px}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}
+.confirm{background:#f1f5fb;color:#0b1119}
+.decline{background:rgba(255,255,255,.07);color:#dce3ed;border:1px solid rgba(255,255,255,.1)}
+button:disabled{opacity:.55;cursor:default}
+.done{display:none;margin-top:14px;color:#cbd5e1;font-size:14px}
+.privacy{margin:18px auto 0;text-align:center;color:#79869a;font-size:12px;line-height:1.45}
+@media(max-width:720px){
+ .artwork-frame iframe{height:430px}
+ .actions{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<main class="shell">
+  <div class="eyebrow">EXP-008 · COLLECTOR INTENT STUDY</div>
+  <h1>Deterministic Signal Trace</h1>
+  <p class="lead">The same experimental artwork is shown to every visitor. This study changes only whether the proposed collector price is visible before acquisition details are opened.</p>
+
+  <section class="artwork-frame">
+    <iframe src="../artwork.html" title="Deterministic Signal Trace artwork"></iframe>
+  </section>
+
+  <section class="card" aria-live="polite">
+    <div id="variantEyebrow" class="label"></div>
+    <div id="variantHeadline" class="module-title"></div>
+    <p class="module-copy">Review the proposed collector terms before deciding whether this work is worth considering.</p>
+
+    <button id="detailsButton" class="cta" type="button">View acquisition details</button>
+
+    <div id="detailsPanel" class="details">
+      <div class="label">PROPOSED COLLECTOR PRICE</div>
+      <div class="price">0.01 ETH</div>
+      <p class="notice">
+        Research interest check only. No purchase occurs here. No wallet connection,
+        payment, marketplace listing, offer, or blockchain transaction is created.
+      </p>
+      <div class="actions">
+        <button id="confirmButton" class="confirm" type="button">I would consider collecting at 0.01 ETH</button>
+        <button id="declineButton" class="decline" type="button">Not at this price</button>
+      </div>
+      <div id="doneMessage" class="done">Response recorded for this browser session.</div>
+    </div>
+  </section>
+
+  <p class="privacy">No cookies · no fingerprinting · no wallet connection · session-scoped experiment ID only</p>
+</main>
+
+<script>
+const EXPERIMENT = "EXP-008";
+const COLLECTOR = "__EXP008_COLLECTOR_ENDPOINT__";
+
+function getSessionId() {
+  let id = sessionStorage.getItem("exp008_session_id");
+  if (!id) {
+    id = crypto.randomUUID();
+    sessionStorage.setItem("exp008_session_id", id);
+  }
+  return id;
+}
+
+function getVariant() {
+  let v = sessionStorage.getItem("exp008_variant");
+  if (!v) {
+    v = crypto.getRandomValues(new Uint32Array(1))[0] % 2 === 0
+      ? "CONTROL"
+      : "TREATMENT";
+    sessionStorage.setItem("exp008_variant", v);
+  }
+  return v;
+}
+
+const sessionId = getSessionId();
+const variant = getVariant();
+
+const eyebrow = document.getElementById("variantEyebrow");
+const headline = document.getElementById("variantHeadline");
+
+if (variant === "CONTROL") {
+  eyebrow.textContent = "COLLECTOR AVAILABILITY";
+  headline.textContent = "Acquisition details available";
+} else {
+  eyebrow.textContent = "PROPOSED COLLECTOR PRICE";
+  headline.textContent = "0.01 ETH";
+}
+
+async function sendEvent(eventName) {
+  try {
+    await fetch(COLLECTOR, {
+      method: "POST",
+      mode: "cors",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({
+        experiment: EXPERIMENT,
+        variant,
+        session_id: sessionId,
+        event_name: eventName,
+        client_ts: new Date().toISOString()
+      })
+    });
+  } catch (_) {
+    // Prelaunch builds intentionally fail closed if collector is not configured.
+  }
+}
+
+sendEvent("page_view");
+setTimeout(() => sendEvent("engaged_5s"), 5000);
+setTimeout(() => sendEvent("engaged_15s"), 15000);
+
+const detailsButton = document.getElementById("detailsButton");
+const detailsPanel = document.getElementById("detailsPanel");
+const confirmButton = document.getElementById("confirmButton");
+const declineButton = document.getElementById("declineButton");
+const doneMessage = document.getElementById("doneMessage");
+
+detailsButton.addEventListener("click", async () => {
+  detailsPanel.classList.add("open");
+  detailsButton.disabled = true;
+  await sendEvent("acquisition_details_click");
+});
+
+function finishChoice() {
+  confirmButton.disabled = true;
+  declineButton.disabled = true;
+  doneMessage.style.display = "block";
+}
+
+confirmButton.addEventListener("click", async () => {
+  if (sessionStorage.getItem("exp008_choice")) return;
+  sessionStorage.setItem("exp008_choice", "confirm");
+  finishChoice();
+  await sendEvent("collector_intent_confirm");
+});
+
+declineButton.addEventListener("click", async () => {
+  if (sessionStorage.getItem("exp008_choice")) return;
+  sessionStorage.setItem("exp008_choice", "decline");
+  finishChoice();
+  await sendEvent("collector_intent_decline");
+});
+</script>
+</body>
+</html>
