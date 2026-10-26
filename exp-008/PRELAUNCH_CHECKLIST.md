@@ -1,0 +1,26 @@
+# EXP-008 Prelaunch Gate
+
+- [x] Experiment variable defined before launch.
+- [x] Primary metric defined before launch.
+- [x] Same artwork locked by SHA-256.
+- [x] 50/50 session-scoped assignment implemented.
+- [x] No public variant override implemented.
+- [x] No cookies or fingerprinting.
+- [x] No wallet connection.
+- [x] No payment or transaction.
+- [x] Collector validates event names and variants.
+- [x] D1 deduplication defined.
+- [ ] Create dedicated D1 database aisizarwalli-exp008.
+- [ ] Apply schema.sql remotely.
+- [ ] Deploy dedicated Worker.
+- [ ] Replace __EXP008_D1_DATABASE_ID__.
+- [ ] Replace __EXP008_ALLOWED_ORIGIN__.
+- [ ] Replace __EXP008_COLLECTOR_ENDPOINT__.
+- [ ] Publish from dedicated EXP-008 public location.
+- [ ] Verify /health and CORS.
+- [ ] Run CONTROL telemetry chain.
+- [ ] Run TREATMENT telemetry chain.
+- [ ] Delete validation rows.
+- [ ] Confirm public D1 baseline = 0.
+- [ ] Record official launch UTC and maximum end UTC.
+- [ ] Obtain explicit human approval before any Moltbook post.
