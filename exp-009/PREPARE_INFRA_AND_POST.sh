@@ -21,6 +21,8 @@ gh repo clone "$REPO" "$TMP_DIR/repo" -- --quiet
 cd "$TMP_DIR/repo"
 git fetch -q origin "$BRANCH"
 git checkout -q "$BRANCH"
+git config user.name "AISIZarwalli Automation"
+git config user.email "actions@users.noreply.github.com"
 
 CONFIG="exp-009/public/collector/wrangler.jsonc"
 SCHEMA="exp-009/public/collector/schema.sql"
