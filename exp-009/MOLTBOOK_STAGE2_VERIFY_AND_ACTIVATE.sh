@@ -1,7 +1,6 @@
 #!/bin/zsh
 set -euo pipefail
-cd "$HOME/nft-ai-agent"
-TMP="$(mktemp)"
-trap 'rm -f "$TMP"' EXIT
-curl -fsSL "https:""//raw.githubusercontent.com/mohamedazad415-coder/aisizarwalli-exp7/main/exp-009/MOLTBOOK_STAGE2_VERIFY_AND_ACTIVATE.py" -o "$TMP"
-python3 "$TMP"
+echo "DEPRECATED: ce lanceur utilise l'ancien challenge EXP-009, désormais expiré."
+echo "Ne relancez pas l'ancienne vérification. Le nouveau lanceur atomique est :"
+echo "exp-009/MOLTBOOK_ATOMIC_CREATE_VERIFY_ACTIVATE.sh"
+exit 2
