@@ -32,21 +32,59 @@ function validSessionId(value) {
     /^[A-Za-z0-9-]+$/.test(value);
 }
 async function lifecycle(env) {
-  const row = await env.DB.prepare(
+  let row = await env.DB.prepare(
     "SELECT status, launch_utc, maximum_end_utc FROM exp009_control WHERE experiment=?"
   ).bind(EXPERIMENT).first();
-  if (!row) return {status:"PRELAUNCH",launch_utc:null,maximum_end_utc:null};
-  if (row.status === "RUNNING" && row.maximum_end_utc) {
-    const now = Date.now();
-    const end = Date.parse(row.maximum_end_utc);
-    if (Number.isFinite(end) && now > end) {
+
+  if (!row) {
+    return {status:"PRELAUNCH",launch_utc:null,maximum_end_utc:null};
+  }
+
+  if (row.status === "RUNNING") {
+    const counts = await env.DB.prepare(
+      `SELECT
+        COUNT(DISTINCT CASE WHEN variant='CONTROL' AND event_name='landing_page_view' THEN session_id END) AS control_sessions,
+        COUNT(DISTINCT CASE WHEN variant='TREATMENT' AND event_name='landing_page_view' THEN session_id END) AS treatment_sessions
+       FROM exp009_events`
+    ).first();
+
+    const controlSessions = Number(counts?.control_sessions || 0);
+    const treatmentSessions = Number(counts?.treatment_sessions || 0);
+    const now = new Date();
+    const end = row.maximum_end_utc ? Date.parse(row.maximum_end_utc) : NaN;
+
+    let stopReason = null;
+    if (controlSessions >= 12 && treatmentSessions >= 12) {
+      stopReason = "SESSION_THRESHOLD_REACHED";
+    } else if (Number.isFinite(end) && now.getTime() >= end) {
+      stopReason = "MAXIMUM_DURATION_REACHED";
+    }
+
+    if (stopReason) {
+      const closedAt = now.toISOString();
       await env.DB.prepare(
-        "UPDATE exp009_control SET status='CLOSED', updated_at=? WHERE experiment=?"
-      ).bind(new Date().toISOString(),EXPERIMENT).run();
-      return {...row,status:"CLOSED"};
+        "UPDATE exp009_control SET status='CLOSED', updated_at=? WHERE experiment=? AND status='RUNNING'"
+      ).bind(closedAt,EXPERIMENT).run();
+
+      await env.DB.prepare(
+        `INSERT OR IGNORE INTO exp009_closure
+         (experiment,stop_reason,closed_at,control_sessions,treatment_sessions)
+         VALUES (?,?,?,?,?)`
+      ).bind(
+        EXPERIMENT,stopReason,closedAt,controlSessions,treatmentSessions
+      ).run();
+
+      row = await env.DB.prepare(
+        "SELECT status, launch_utc, maximum_end_utc FROM exp009_control WHERE experiment=?"
+      ).bind(EXPERIMENT).first();
     }
   }
-  return row;
+
+  const closure = await env.DB.prepare(
+    "SELECT stop_reason, closed_at, control_sessions, treatment_sessions FROM exp009_closure WHERE experiment=?"
+  ).bind(EXPERIMENT).first();
+
+  return closure ? {...row,...closure} : row;
 }
 
 export default {
