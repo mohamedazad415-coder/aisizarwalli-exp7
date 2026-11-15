@@ -42,3 +42,15 @@ The prelaunch telemetry chain for both CONTROL and TREATMENT had been validated 
 
 ## Next experiment
 EXP-009 should move one step earlier in the funnel and test **traffic/distribution acquisition** before running another pricing or collector-intent experiment.
+
+
+## Distribution timing correction
+The Moltbook distribution post was published only after the official EXP-008 maximum end time (2026-11-09T21:09:01.523588+00:00).
+
+Therefore, the zero-event result is best interpreted as **NO ACTIVE LAUNCH-CHANNEL DISTRIBUTION DURING THE OFFICIAL WINDOW**, rather than evidence that the artwork, price framing, or landing page failed to attract visitors.
+
+This does not change the statistical conclusion: the price-disclosure hypothesis remains **TEST_NOT_EVALUABLE**.
+
+Additional operational classification:
+- DISTRIBUTION_ACTIVATED_AFTER_EXPERIMENT_WINDOW
+- NO_VALID_TRAFFIC_ACQUISITION_WINDOW
