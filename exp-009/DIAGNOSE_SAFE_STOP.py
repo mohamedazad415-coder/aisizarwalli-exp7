@@ -100,7 +100,7 @@ if key:
 else:
     print("3) Post Moltbook: clé absente du .env; vérification GET ignorée (aucune clé affichée).")
 
-for label, endpoint in (("4) Worker /health", "/health"), ("5) Worker /stats", "/stats"):
+for label, endpoint in (("4) Worker /health", "/health"), ("5) Worker /stats", "/stats")):
     code, data = get_json(WORKER + endpoint)
     show_json(label + " — HTTP " + str(code), data)
 
