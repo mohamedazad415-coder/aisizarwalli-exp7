@@ -73,7 +73,7 @@ def deploy_latest_worker():
             DB_NAME, "--remote", "--file=" + str(root / "schema.sql")
         ]
         applied = subprocess.run(
-            schema_cmd, cwd=str(ROOT), input="y\\n", text=True,
+            schema_cmd, cwd=str(ROOT), input="y\n", text=True,
             stdout=subprocess.PIPE, stderr=subprocess.STDOUT
         )
         if applied.returncode != 0:
