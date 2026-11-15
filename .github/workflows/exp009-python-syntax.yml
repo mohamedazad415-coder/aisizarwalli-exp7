@@ -1,0 +1,27 @@
+name: EXP-009 Python syntax
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "exp-009/*.py"
+      - ".github/workflows/exp009-python-syntax.yml"
+  pull_request:
+    paths:
+      - "exp-009/*.py"
+      - ".github/workflows/exp009-python-syntax.yml"
+
+jobs:
+  compile:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile EXP-009 Python scripts
+        run: |
+          python -m py_compile exp-009/MOLTBOOK_ATOMIC_CREATE_VERIFY_ACTIVATE.py
+          python -m py_compile exp-009/MOLTBOOK_STAGE1_POST.py
+          python -m py_compile exp-009/MOLTBOOK_STAGE2_VERIFY_AND_ACTIVATE.py
+          python -m py_compile exp-009/DIAGNOSE_SAFE_STOP.py
