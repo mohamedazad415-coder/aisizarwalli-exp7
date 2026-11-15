@@ -1,0 +1,40 @@
+{
+  "experiment": "EXP-008",
+  "title": "Price Disclosure → Collector Intent",
+  "status": "COMPLETED_NO_DATA",
+  "launch_utc": "2026-10-26T21:09:01.523588+00:00",
+  "maximum_end_utc": "2026-11-09T21:09:01.523588+00:00",
+  "stop_reason": "MAXIMUM_DURATION_REACHED",
+  "final_observation": {
+    "control_sessions": 0,
+    "treatment_sessions": 0,
+    "total_events": 0,
+    "first_event": null,
+    "last_event": null,
+    "collector_intent_confirms_control": 0,
+    "collector_intent_confirms_treatment": 0
+  },
+  "primary_metric": "collector_intent_confirm_rate_per_page_view_session",
+  "primary_result": "NOT_EVALUABLE_NO_EXPOSURE",
+  "hypothesis_result": "TEST_NOT_EVALUABLE",
+  "classifications": [
+    "NO_PRODUCTION_EVENTS_OBSERVED",
+    "NO_MEASURABLE_EXPOSURE",
+    "MAXIMUM_DURATION_REACHED",
+    "TEST_NOT_EVALUABLE",
+    "COMPLETED_NO_DATA"
+  ],
+  "interpretation": [
+    "No production telemetry events were recorded after the official baseline reset.",
+    "Because both variants had zero page-view sessions, the primary confirmation rate is undefined for both variants.",
+    "No conclusion can be made about whether upfront price disclosure increases, decreases, or does not change collector intent.",
+    "Prelaunch CONTROL/TREATMENT telemetry validation had passed before the launch reset, so the experiment instrumentation was validated at launch; however, zero production events cannot by itself distinguish zero real visits from a post-launch availability or delivery issue."
+  ],
+  "prohibited_claims": [
+    "Do not claim CONTROL is better.",
+    "Do not claim TREATMENT is better.",
+    "Do not claim equivalence.",
+    "Do not claim the proposed 0.01 ETH price was accepted or rejected by visitors."
+  ],
+  "next_step": "EXP-009 should test distribution/traffic acquisition first, before another pricing or collector-intent variable."
+}
