@@ -104,11 +104,23 @@ def main():
         if not (re.search(r"twenty\s+six", normalized) and "reduce" in normalized and "seven" in normalized):
             stop("Le texte du challenge ne correspond pas au calcul validé; aucun envoi.")
 
+        api_key = read_api_key()
+        if not api_key:
+            stop("MOLTBOOK_API_KEY vide; aucun envoi.")
+
         health, stats = check_prelaunch()
         if (health.get("lifecycle") or {}).get("status") != "PRELAUNCH":
             stop("Le Worker n'est pas en PRELAUNCH; aucun challenge soumis.")
         if int((stats.get("totals") or {}).get("total_events") or 0) != 0:
             stop("La baseline n'est pas à zéro; aucun challenge soumis.")
+
+        auth_check = subprocess.run(
+            ["npx", "wrangler@" + WRANGLER_VERSION, "whoami"],
+            cwd=str(ROOT), stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True
+        )
+        if auth_check.returncode != 0:
+            print(auth_check.stdout[-1200:])
+            stop("Authentification Cloudflare indisponible; aucun challenge soumis.")
 
         # Persist an irreversible-attempt marker BEFORE the one and only POST.
         attempt = {
@@ -131,7 +143,7 @@ def main():
             data=payload,
             method="POST",
             headers={
-                "Authorization":"Bearer " + read_api_key(),
+                "Authorization":"Bearer " + api_key,
                 "Content-Type":"application/json",
                 "Accept":"application/json",
                 "User-Agent":"AISIZarwalli-EXP009/1.0"
