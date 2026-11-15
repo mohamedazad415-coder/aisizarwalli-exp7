@@ -1,6 +1,6 @@
 {
   "experiment": "EXP-008",
-  "status": "RUNNING_PUBLIC",
+  "status": "COMPLETED_NO_DATA",
   "launch_utc": "2026-10-26T21:09:01.523588+00:00",
   "maximum_end_utc": "2026-11-09T21:09:01.523588+00:00",
   "stopping_rule": "20 distinct page_view sessions in EACH variant OR 14 days, whichever occurs first",
@@ -24,5 +24,10 @@
     "http_status": 200,
     "accepted": true,
     "verification_secret_removed_locally": true
-  }
+  },
+  "stop_reason": "MAXIMUM_DURATION_REACHED",
+  "final_result": "TEST_NOT_EVALUABLE",
+  "final_total_events": 0,
+  "final_control_sessions": 0,
+  "final_treatment_sessions": 0
 }
