@@ -1,7 +1,7 @@
 {
   "experiment": "EXP-008",
-  "title": "Price Disclosure \u2192 Collector Intent",
-  "status": "RUNNING_PUBLIC",
+  "title": "Price Disclosure → Collector Intent",
+  "status": "COMPLETED_NO_DATA",
   "objective": "Measure whether showing a proposed collector price before acquisition details changes explicit collector intent.",
   "artwork": {
     "reuse_existing_artwork": true,
@@ -76,5 +76,7 @@
   ],
   "official_launch_utc": "2026-10-26T21:09:01.523588+00:00",
   "maximum_end_utc": "2026-11-09T21:09:01.523588+00:00",
-  "public_url": "https://mohamedazad415-coder.github.io/aisizarwalli-exp7/exp-008/public/"
+  "public_url": "https://mohamedazad415-coder.github.io/aisizarwalli-exp7/exp-008/public/",
+  "final_result": "TEST_NOT_EVALUABLE",
+  "stop_reason": "MAXIMUM_DURATION_REACHED"
 }
