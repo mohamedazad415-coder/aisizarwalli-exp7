@@ -74,11 +74,12 @@ button:disabled{opacity:.55;cursor:default}
     </div>
   </section>
 
-  <p class="privacy">No cookies · no fingerprinting · no wallet connection · session-scoped experiment ID only</p>
+  <p class="privacy"><strong>EXP-008 is closed.</strong> No new responses are being recorded.<br>No cookies · no fingerprinting · no wallet connection</p>
 </main>
 
 <script>
 const EXPERIMENT = "EXP-008";
+const EXPERIMENT_CLOSED = true;
 const COLLECTOR = "https://aisizarwalli-exp008-collector.aisizarwalli.workers.dev/event";
 
 function getSessionId() {
@@ -116,6 +117,7 @@ if (variant === "CONTROL") {
 }
 
 async function sendEvent(eventName) {
+  if (EXPERIMENT_CLOSED) return;
   try {
     await fetch(COLLECTOR, {
       method: "POST",
