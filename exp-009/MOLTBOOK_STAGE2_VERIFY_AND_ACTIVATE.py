@@ -112,6 +112,13 @@ def wrangler_update(launch_utc, end_utc):
 
 def main():
     EXP_DIR.mkdir(parents=True, exist_ok=True)
+    if ATTEMPT_FILE.exists():
+        try:
+            previous = json.loads(ATTEMPT_FILE.read_text(encoding="utf-8"))
+        except Exception:
+            stop("Marqueur de l'ancienne tentative illisible; ancien lanceur désactivé.")
+        if previous.get("post_id") == EXPECTED_POST_ID and previous.get("status") == "VERIFICATION_NOT_CONFIRMED":
+            stop("Ancien challenge EXP-009 expiré (HTTP 410). Utilisez uniquement MOLTBOOK_ATOMIC_CREATE_VERIFY_ACTIVATE.sh.")
     deploy_latest_worker()
 
     attempt = None
