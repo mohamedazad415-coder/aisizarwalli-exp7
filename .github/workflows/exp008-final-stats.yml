@@ -1,0 +1,19 @@
+name: EXP-008 Final Stats Check
+
+on:
+  push:
+    paths:
+      - ".github/workflows/exp008-final-stats.yml"
+  workflow_dispatch:
+
+jobs:
+  stats:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch EXP-008 aggregate stats
+        run: |
+          set -euo pipefail
+          echo "EXP008_STATS_BEGIN"
+          curl -fsS "https://aisizarwalli-exp008-collector.aisizarwalli.workers.dev/stats"
+          echo
+          echo "EXP008_STATS_END"
