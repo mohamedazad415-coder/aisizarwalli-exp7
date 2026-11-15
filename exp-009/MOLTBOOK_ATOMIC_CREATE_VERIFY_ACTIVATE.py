@@ -492,10 +492,13 @@ def check_worker_prelaunch_or_running():
     status, health, _ = request_json("GET", WORKER + "/health", timeout=20)
     if status != 200 or health.get("ok") is not True:
         stop("Worker indisponible pendant l'activation.")
+    lifecycle_status = str((health.get("lifecycle") or {}).get("status") or "")
+    if lifecycle_status not in ("PRELAUNCH", "RUNNING"):
+        stop("État Worker inattendu pendant l'activation.")
     stats_status, stats, _ = request_json("GET", WORKER + "/stats", timeout=20)
     if stats_status != 200:
         stop("Statistiques Worker indisponibles pendant l'activation.")
-    if int((stats.get("totals") or {}).get("total_events") or 0) != 0:
+    if lifecycle_status == "PRELAUNCH" and int((stats.get("totals") or {}).get("total_events") or 0) != 0:
         stop("Événements détectés avant l'activation; arrêt de sécurité.")
     return health, stats
 
@@ -522,7 +525,7 @@ def resume_if_needed(state, api_key):
         print("Launch UTC:", state.get("launch_utc"))
         print("Maximum end UTC:", state.get("maximum_end_utc"))
         return True
-    if status == "VERIFIED_PENDING_CONFIRMATION":
+    if status in ("VERIFIED_PENDING_CONFIRMATION", "POST_CREATED_PENDING_MODERATION"):
         confirmed, result = confirm_post_verified(api_key, state["post_id"])
         if not confirmed:
             stop("Moltbook n'a pas encore confirmé le post. Aucun nouveau POST/verify. Statut: " + str(result))
