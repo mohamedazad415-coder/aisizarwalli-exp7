@@ -22,7 +22,9 @@
     "NO_MEASURABLE_EXPOSURE",
     "MAXIMUM_DURATION_REACHED",
     "TEST_NOT_EVALUABLE",
-    "COMPLETED_NO_DATA"
+    "COMPLETED_NO_DATA",
+    "DISTRIBUTION_ACTIVATED_AFTER_EXPERIMENT_WINDOW",
+    "NO_VALID_TRAFFIC_ACQUISITION_WINDOW"
   ],
   "interpretation": [
     "No production telemetry events were recorded after the official baseline reset.",
@@ -36,5 +38,10 @@
     "Do not claim equivalence.",
     "Do not claim the proposed 0.01 ETH price was accepted or rejected by visitors."
   ],
-  "next_step": "EXP-009 should test distribution/traffic acquisition first, before another pricing or collector-intent variable."
+  "next_step": "EXP-009 should test distribution/traffic acquisition first, before another pricing or collector-intent variable.",
+  "distribution_timing_correction": {
+    "moltbook_distribution_status_during_official_window": "NOT_ACTIVE",
+    "moltbook_distribution_activated_after_maximum_end": true,
+    "interpretation": "Zero production events occurred without the intended launch-channel distribution being active during the official experiment window."
+  }
 }
