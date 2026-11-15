@@ -28,3 +28,11 @@ VALUES
 CREATE INDEX IF NOT EXISTS idx_exp009_variant ON exp009_events (variant);
 CREATE INDEX IF NOT EXISTS idx_exp009_event ON exp009_events (event_name);
 CREATE INDEX IF NOT EXISTS idx_exp009_received ON exp009_events (received_at);
+
+CREATE TABLE IF NOT EXISTS exp009_closure (
+  experiment TEXT PRIMARY KEY CHECK (experiment = 'EXP-009'),
+  stop_reason TEXT NOT NULL CHECK (stop_reason IN ('SESSION_THRESHOLD_REACHED','MAXIMUM_DURATION_REACHED')),
+  closed_at TEXT NOT NULL,
+  control_sessions INTEGER NOT NULL,
+  treatment_sessions INTEGER NOT NULL
+);
