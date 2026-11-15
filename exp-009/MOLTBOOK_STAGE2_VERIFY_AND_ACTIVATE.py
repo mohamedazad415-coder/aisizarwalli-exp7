@@ -136,7 +136,7 @@ def main():
         if not verification_code:
             stop("Code de vérification absent; aucun envoi.")
         normalized = re.sub(r"[^a-z0-9]+", " ", challenge.lower())
-        if not (re.search(r"twenty\s+six", normalized) and "reduce" in normalized and "seven" in normalized):
+        if not (re.search(r"twen\s*ty\s+six", normalized) and re.search(r"redu\s*ces?", normalized) and "seven" in normalized):
             stop("Le texte du challenge ne correspond pas au calcul validé; aucun envoi.")
 
         api_key = read_api_key()
