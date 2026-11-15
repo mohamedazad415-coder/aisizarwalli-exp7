@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """EXP-009 atomic Moltbook post -> one verification attempt -> guarded activation.
 
-The old expired post is never reused. A local Ollama model is preflight-tested
+The old expired post is never reused. A local Ollama model is preflight-tested twice
 before any new public post is created. All Moltbook secrets stay on this Mac.
 """
 import json
