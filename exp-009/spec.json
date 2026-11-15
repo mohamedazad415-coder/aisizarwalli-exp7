@@ -1,0 +1,94 @@
+{
+  "experiment": "EXP-009",
+  "title": "Distribution Activation → Artwork Open",
+  "status": "PRELAUNCH",
+  "objective": "Validate synchronized Moltbook distribution produces measurable landing traffic, then test whether first-screen framing changes the rate at which visitors open the full artwork.",
+  "rationale": "EXP-008 had no valid launch-channel distribution during its official observation window, so pricing intent could not be evaluated. EXP-009 moves one step earlier in the funnel.",
+  "artwork": {
+    "reuse_existing_artwork": true,
+    "sha256": "114a40a49b4fe18c34bad3af70775b0d952091ad072bc680ed6730b8bee49132",
+    "change_allowed": false
+  },
+  "distribution": {
+    "channel": "Moltbook",
+    "source_posts": 1,
+    "destination": "single EXP-009 landing URL",
+    "arm_assignment": "after landing, 50/50 in browser session",
+    "reason": "Avoid feed-exposure confounding between CONTROL and TREATMENT."
+  },
+  "variable": "pre_artwork_first_screen_framing",
+  "control": {
+    "eyebrow": "EXPERIMENTAL ARTWORK",
+    "headline": "Deterministic Signal Trace",
+    "subheadline": "A static generative signal study."
+  },
+  "treatment": {
+    "eyebrow": "CAN YOU READ THE SIGNAL?",
+    "headline": "What do you see in this trace?",
+    "subheadline": "Open the full work before reading the explanation."
+  },
+  "common": {
+    "cta": "Open full artwork",
+    "preview": "Same locked artwork preview in both variants",
+    "full_artwork": "Same locked artwork in both variants",
+    "wallet_connection": false,
+    "purchase": false,
+    "payment": false,
+    "marketplace_listing": false,
+    "blockchain_transaction": false
+  },
+  "hypothesis": "Curiosity-led first-screen framing will increase full-artwork opens per landing-page session relative to neutral technical framing.",
+  "operational_gate": {
+    "metric": "production landing_page_view sessions",
+    "success": "At least 1 recorded production landing-page session within 24 hours after Moltbook distribution is published and experiment status is RUNNING.",
+    "failure_action": "Do not interpret A/B content performance; diagnose distribution or delivery first."
+  },
+  "primary_event": "artwork_open",
+  "primary_metric": "artwork_open_rate_per_landing_page_session",
+  "secondary_events": [
+    "landing_page_view",
+    "engaged_5s",
+    "engaged_15s"
+  ],
+  "assignment": {
+    "ratio": "50/50",
+    "persistence": "sessionStorage only",
+    "override_in_public_build": false
+  },
+  "stopping_rule": {
+    "threshold": "12 distinct landing_page_view sessions in EACH variant",
+    "maximum_duration_days": 7,
+    "minimum_total_sessions_for_directional_interpretation": 10,
+    "rule": "Stop at the first of threshold reached or maximum duration reached. If fewer than 10 total sessions, classify A/B result as low-exposure/not evaluable."
+  },
+  "privacy": {
+    "cookies": false,
+    "fingerprinting": false,
+    "persistent_cross_session_id": false,
+    "stores_ip": false,
+    "stores_user_agent": false,
+    "stores_referrer": false
+  },
+  "semantics": {
+    "artwork_open_means": "Visitor explicitly opened the full artwork from the experiment landing page.",
+    "does_not_mean": [
+      "collector intent",
+      "marketplace visit",
+      "offer",
+      "purchase",
+      "sale",
+      "revenue",
+      "profit"
+    ]
+  },
+  "lifecycle": {
+    "d1_control_table": true,
+    "prelaunch_events_rejected": true,
+    "events_after_end_rejected": true,
+    "official_clock_starts_only_after_distribution_is_published": true
+  },
+  "human_approval": {
+    "moltbook_post_required": true,
+    "financial_or_onchain_action_required": true
+  }
+}

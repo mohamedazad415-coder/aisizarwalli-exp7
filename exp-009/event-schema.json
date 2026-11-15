@@ -1,0 +1,30 @@
+{
+  "experiment": "EXP-009",
+  "version": 1,
+  "source": "moltbook_exp009",
+  "variants": [
+    "CONTROL",
+    "TREATMENT"
+  ],
+  "events": [
+    "landing_page_view",
+    "engaged_5s",
+    "engaged_15s",
+    "artwork_open"
+  ],
+  "required_fields": [
+    "experiment",
+    "variant",
+    "session_id",
+    "event_name",
+    "client_ts",
+    "source"
+  ],
+  "deduplication_key": [
+    "experiment",
+    "variant",
+    "session_id",
+    "event_name"
+  ],
+  "privacy_notes": "No IP, user-agent, referrer, cookie, wallet address, or cross-session identifier is intentionally stored."
+}

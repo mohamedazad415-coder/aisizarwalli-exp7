@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>EXP-009 — Signal Study</title>
+<style>
+*{box-sizing:border-box}
+:root{color-scheme:dark}
+body{margin:0;min-height:100vh;color:#f6f8fb;background:
+radial-gradient(circle at 50% -10%,rgba(91,104,150,.30),transparent 38%),
+linear-gradient(180deg,#090c13,#050609 72%);
+font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Helvetica Neue",sans-serif}
+.shell{width:min(940px,calc(100% - 32px));margin:0 auto;padding:54px 0 72px}
+.top{text-align:center}
+.eyebrow{font-size:12px;font-weight:800;letter-spacing:.18em;color:#a7b2c5}
+h1{max-width:760px;margin:14px auto 12px;font-size:clamp(38px,7vw,66px);line-height:.98;letter-spacing:-.05em}
+.lead{max-width:680px;margin:0 auto 28px;color:#b6c0cf;line-height:1.55}
+.preview{height:350px;overflow:hidden;border-radius:30px;border:1px solid rgba(255,255,255,.13);background:#050609;
+box-shadow:0 28px 90px rgba(0,0,0,.48),inset 0 1px 0 rgba(255,255,255,.07)}
+.preview iframe{display:block;width:100%;height:680px;border:0;pointer-events:none;transform:translateY(-70px)}
+.card{margin:24px auto 0;padding:22px;border-radius:26px;border:1px solid rgba(255,255,255,.12);background:rgba(16,21,31,.74);backdrop-filter:blur(18px)}
+.cta{width:100%;border:0;border-radius:18px;padding:17px 20px;font-size:17px;font-weight:850;cursor:pointer;color:#071018;
+background:linear-gradient(90deg,#d9e7ff,#f4d28a);box-shadow:0 10px 35px rgba(205,224,255,.16)}
+.full{display:none;margin-top:22px;overflow:hidden;border-radius:28px;border:1px solid rgba(255,255,255,.12);background:#050609}
+.full.open{display:block}
+.full iframe{display:block;width:100%;height:690px;border:0}
+.note{margin-top:16px;text-align:center;color:#7f8ca0;font-size:12px;line-height:1.5}
+@media(max-width:720px){.preview{height:260px}.preview iframe{height:560px}.full iframe{height:560px}}
+</style>
+</head>
+<body>
+<main class="shell">
+  <section class="top">
+    <div id="eyebrow" class="eyebrow"></div>
+    <h1 id="headline"></h1>
+    <p id="lead" class="lead"></p>
+  </section>
+
+  <section class="preview" aria-label="Artwork preview">
+    <iframe src="./artwork.html" title="Artwork preview"></iframe>
+  </section>
+
+  <section class="card">
+    <button id="openButton" class="cta" type="button">Open full artwork</button>
+    <div id="fullArtwork" class="full">
+      <iframe src="./artwork.html" title="Deterministic Signal Trace full artwork"></iframe>
+    </div>
+  </section>
+
+  <p class="note">Experimental study · no cookies · no fingerprinting · no wallet connection · no purchase</p>
+</main>
+
+<script>
+const EXPERIMENT="EXP-009";
+const SOURCE="moltbook_exp009";
+const COLLECTOR="https://aisizarwalli-exp009-collector.aisizarwalli.workers.dev/event";
+
+function sessionId(){
+  let x=sessionStorage.getItem("exp009_session_id");
+  if(!x){x=crypto.randomUUID();sessionStorage.setItem("exp009_session_id",x)}
+  return x;
+}
+function variant(){
+  let v=sessionStorage.getItem("exp009_variant");
+  if(!v){
+    v=crypto.getRandomValues(new Uint32Array(1))[0]%2===0?"CONTROL":"TREATMENT";
+    sessionStorage.setItem("exp009_variant",v);
+  }
+  return v;
+}
+const sid=sessionId();
+const arm=variant();
+
+if(arm==="CONTROL"){
+  eyebrow.textContent="EXPERIMENTAL ARTWORK";
+  headline.textContent="Deterministic Signal Trace";
+  lead.textContent="A static generative signal study.";
+}else{
+  eyebrow.textContent="CAN YOU READ THE SIGNAL?";
+  headline.textContent="What do you see in this trace?";
+  lead.textContent="Open the full work before reading the explanation.";
+}
+
+async function sendEvent(eventName){
+  try{
+    await fetch(COLLECTOR,{
+      method:"POST",
+      mode:"cors",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({
+        experiment:EXPERIMENT,
+        source:SOURCE,
+        variant:arm,
+        session_id:sid,
+        event_name:eventName,
+        client_ts:new Date().toISOString()
+      })
+    });
+  }catch(_){}
+}
+
+sendEvent("landing_page_view");
+setTimeout(()=>sendEvent("engaged_5s"),5000);
+setTimeout(()=>sendEvent("engaged_15s"),15000);
+
+const openButton=document.getElementById("openButton");
+const fullArtwork=document.getElementById("fullArtwork");
+openButton.addEventListener("click",async()=>{
+  if(sessionStorage.getItem("exp009_opened"))return;
+  sessionStorage.setItem("exp009_opened","1");
+  fullArtwork.classList.add("open");
+  openButton.disabled=true;
+  openButton.textContent="Artwork opened";
+  await sendEvent("artwork_open");
+  fullArtwork.scrollIntoView({behavior:"smooth",block:"start"});
+});
+</script>
+</body>
+</html>

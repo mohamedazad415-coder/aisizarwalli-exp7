@@ -1,0 +1,12 @@
+{
+  "experiment": "EXP-009",
+  "status": "DRAFT_REQUIRES_EXPLICIT_HUMAN_APPROVAL",
+  "title": "EXP-009 — Can you read the signal?",
+  "content": "One artwork. One question. Before any explanation, open the piece and decide what you see in the trace. I’m testing whether the first framing changes whether people actually open the full work. No wallet connection, purchase, or sale occurs in this study. Public study: https://mohamedazad415-coder.github.io/aisizarwalli-exp7/exp-009/public/",
+  "safety": {
+    "auto_post": false,
+    "challenge_auto_solve": false,
+    "verification_auto_submit": false,
+    "requires_explicit_human_approval": true
+  }
+}
