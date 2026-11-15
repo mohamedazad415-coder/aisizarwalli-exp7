@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import json, os, re, sys, subprocess, urllib.request, urllib.error
+import json, os, re, sys, subprocess, urllib.request, urllib.error, tempfile
 from pathlib import Path
 from datetime import datetime, timedelta, timezone
 
@@ -54,6 +54,40 @@ def check_prelaunch():
         stop("La baseline D1 n'est pas nulle; aucune activation automatique.")
     return health, stats
 
+def deploy_latest_worker():
+    print("Mise à jour du Worker avec les règles d'arrêt complètes...")
+    base = "https:" + "//raw.githubusercontent.com/mohamedazad415-coder/aisizarwalli-exp7/main/exp-009/public/collector/"
+    with tempfile.TemporaryDirectory(prefix="exp009-deploy-") as temp:
+        root = Path(temp)
+        (root / "src").mkdir(parents=True, exist_ok=True)
+        for remote, local in [
+            ("schema.sql", root / "schema.sql"),
+            ("wrangler.jsonc", root / "wrangler.jsonc"),
+            ("src/index.js", root / "src" / "index.js")
+        ]:
+            with urllib.request.urlopen(base + remote, timeout=30) as response:
+                local.write_bytes(response.read())
+
+        schema_cmd = [
+            "npx", "wrangler@" + WRANGLER_VERSION, "d1", "execute",
+            DB_NAME, "--remote", "--file=" + str(root / "schema.sql")
+        ]
+        applied = subprocess.run(
+            schema_cmd, cwd=str(ROOT), input="y\\n", text=True,
+            stdout=subprocess.PIPE, stderr=subprocess.STDOUT
+        )
+        if applied.returncode != 0:
+            print(applied.stdout[-1800:])
+            stop("Impossible de mettre à jour le schéma D1 avant la vérification.")
+
+        deployed = subprocess.run(
+            ["npx", "wrangler@" + WRANGLER_VERSION, "deploy", "--config=" + str(root / "wrangler.jsonc")],
+            cwd=str(ROOT), stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True
+        )
+        if deployed.returncode != 0:
+            print(deployed.stdout[-1800:])
+            stop("Le Worker n'a pas pu être déployé; aucun challenge soumis.")
+
 def wrangler_update(launch_utc, end_utc):
     sql = (
         "UPDATE exp009_control "
@@ -78,6 +112,7 @@ def wrangler_update(launch_utc, end_utc):
 
 def main():
     EXP_DIR.mkdir(parents=True, exist_ok=True)
+    deploy_latest_worker()
 
     attempt = None
     if ATTEMPT_FILE.exists():
