@@ -24,3 +24,13 @@
 - [ ] Verify Moltbook challenge exactly once.
 - [ ] Activate EXP-009 only after Moltbook publication.
 - [ ] Record official launch UTC and maximum end UTC.
+
+
+## Recovery gate after first challenge expiry
+
+- [x] First verification attempt recorded once; Moltbook returned HTTP 410 (expired).
+- [x] Old Stage2 launcher disabled; old Python script guarded.
+- [x] Atomic replacement runner added; local model must pass warm-up before any new post.
+- [ ] Wait for the post interval and run the atomic launcher once.
+- [ ] Confirm new post is verified/bypassed via GET.
+- [ ] Confirm Worker changes to RUNNING and record launch UTC.
