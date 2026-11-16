@@ -530,6 +530,11 @@ def confirm_post_verified(api_key, post_id, tries=4):
     return False, (last[1].get("verification_status") if last and last[1] else "unknown")
 
 def resume_if_needed(state, api_key):
+    # Never treat the known expired historical post as the newly created EXP-009 post.
+    # This guard applies to old local state as well as new attempts.
+    if str(state.get("post_id") or "") == OLD_POST_ID:
+        stop("Identifiant du post historique dans le journal local. "
+             "Aucune activation ni nouvel envoi; diagnostic manuel requis.")
     status = state.get("status")
     if status == "RUNNING":
         print("EXP-009 est déjà RUNNING.")
