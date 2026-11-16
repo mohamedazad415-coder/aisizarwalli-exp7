@@ -64,6 +64,18 @@ class OllamaSafetyTests(unittest.TestCase):
                 atomic.check_ollama({"MOLTBOOK_CHALLENGE_MODEL": "gemma3:4b"})
             self.assertEqual(stopped.exception.code, 1)
 
+    def test_historical_post_cannot_resume_or_activate(self):
+        with patch.object(atomic, "confirm_post_verified") as verify, \
+             patch.object(atomic, "activate_d1") as activate:
+            with self.assertRaises(SystemExit) as stopped:
+                atomic.resume_if_needed({
+                    "status": "POST_CREATED_PENDING_MODERATION",
+                    "post_id": atomic.OLD_POST_ID,
+                    "verification_submission_count": 0,
+                }, "fake-key")
+            self.assertEqual(stopped.exception.code, 1)
+            verify.assert_not_called()
+            activate.assert_not_called()
     def test_no_external_connections_on_import(self):
         # Import happens above; request_json is only called inside explicitly invoked functions.
         self.assertTrue(callable(atomic.main))
