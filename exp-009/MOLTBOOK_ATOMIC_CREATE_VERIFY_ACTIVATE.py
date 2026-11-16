@@ -272,10 +272,10 @@ def call_ollama(model, challenge, pass_number):
         raise ValueError("Ollama solve request failed")
     content = ((body.get("message") or {}).get("content") or "").strip()
     parsed = json.loads(content)
-    if parsed.get("unclear") is True:
-        raise ValueError("Challenge is ambiguous")
     if not isinstance(parsed, dict):
         raise ValueError("Ollama returned a non-object JSON response")
+    if parsed.get("unclear") is True:
+        raise ValueError("Challenge is ambiguous")
     try:
         first = Decimal(str(parsed["first"]))
         second = Decimal(str(parsed["second"]))
