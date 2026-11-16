@@ -25,3 +25,5 @@ jobs:
           python -m py_compile exp-009/MOLTBOOK_STAGE1_POST.py
           python -m py_compile exp-009/MOLTBOOK_STAGE2_VERIFY_AND_ACTIVATE.py
           python -m py_compile exp-009/DIAGNOSE_SAFE_STOP.py
+      - name: Offline Ollama safety tests (no external API requests)
+        run: python -m unittest discover -s exp-009 -p "test_atomic_ollama.py" -v
