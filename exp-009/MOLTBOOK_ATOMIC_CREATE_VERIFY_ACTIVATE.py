@@ -645,6 +645,12 @@ def main():
         state["http_status"] = post_http
         save_state(state)
         stop("Réponse de création sans post_id exploitable. Aucun nouveau POST.")
+    if post_id == OLD_POST_ID:
+        state["status"] = "POST_ID_COLLISION_WITH_OLD_POST"
+        state["post_id"] = post_id
+        state["http_status"] = post_http
+        save_state(state)
+        stop("Identifiant du vieux post retourné par Moltbook. Aucun /verify ni activation; ne pas republier.")
     state["post_id"] = post_id
     state["post_http_status"] = post_http
     state["post_created_at_utc"] = iso(utc_now())
